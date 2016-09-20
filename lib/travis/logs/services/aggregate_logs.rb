@@ -14,22 +14,23 @@ module Travis
           METRIKS_PREFIX
         end
 
-        def self.run
-          new.run
+        def self.run(*args)
+          new(*args).run
         end
 
         def self.aggregate_log(log_id)
           new.aggregate_log(log_id)
         end
 
-        def initialize(database = nil)
+        def initialize(database = nil, async = Travis.config.logs.aggregate_async)
           @database = database || Travis::Logs.database_connection
+          @async = async
         end
 
         def run
           ids = aggregateable_ids
 
-          if aggregate_async?
+          if async?
             Travis.logger.info 'action=aggregate async=true ' \
                                "sample#aggregateable-logs=#{ids.length}"
 
@@ -114,8 +115,8 @@ module Travis
           Travis.config.logs.archive
         end
 
-        def aggregate_async?
-          Travis.config.logs.aggregate_async
+        def async?
+          @async
         end
 
         def transaction(&block)

@@ -11,6 +11,7 @@ module Travis
                         unique: :until_and_while_executing
 
         def perform(log_id)
+          Travis.logger.debug "action=perform log_id=#{log_id} state=aggregate-log"
           Travis::Logs::Services::AggregateLogs.aggregate_log(log_id)
         end
       end
