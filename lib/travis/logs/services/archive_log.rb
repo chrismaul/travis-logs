@@ -29,9 +29,11 @@ module Travis
           @log_id = log_id
           @storage_service = storage_service
           @database = database
+          Travis.logger.debug "action=archive state=initialized"
         end
 
         def run
+          Travis.logger.debug "action=archive state=running"
           return unless fetch
           mark_as_archiving
           return if content_blank?

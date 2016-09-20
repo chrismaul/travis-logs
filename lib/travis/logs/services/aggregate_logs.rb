@@ -47,9 +47,11 @@ module Travis
 
         def aggregate_log(log_id)
           transaction do
+            Travis.logger.debug "action=aggregate log_id=#{log_id} state=starting"
             aggregate(log_id)
             vacuum(log_id) unless log_empty?(log_id)
           end
+          Travis.logger.debug "action=aggregate log_id=#{log_id} state=queue-archiving"
           queue_archiving(log_id)
           Travis.logger.debug "action=aggregate log_id=#{log_id} result=successful"
         rescue => e
@@ -86,6 +88,7 @@ module Travis
           log = database.log_for_id(log_id)
 
           if log
+            Travis.logger.debug "action=queue_archive log_id=#{log_id} state=perform-async"
             Travis::Logs::Sidekiq::Archive.perform_async(log[:id])
           else
             mark('log.record_not_found')
