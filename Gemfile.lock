@@ -6,6 +6,13 @@ GIT
       faraday (>= 0.7.6, < 1.0)
 
 GIT
+  remote: https://github.com/joecorcoran/aws-sdk-ruby-memory-fix.git
+  revision: 45dc5929f6fe09c0b3d135d345b2f557965d24fc
+  specs:
+    aws_memfix (0.3.1)
+      aws-sdk (~> 2.0)
+
+GIT
   remote: https://github.com/rkh/coder.git
   revision: 44b0cf89b98caecc654dd1a724a448e17ef7aa6c
   specs:
@@ -167,6 +174,7 @@ PLATFORMS
 DEPENDENCIES
   activesupport (~> 3.2)
   aws-sdk
+  aws_memfix!
   bunny
   coder!
   connection_pool

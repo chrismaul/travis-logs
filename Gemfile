@@ -4,6 +4,7 @@ ruby '2.3.1', engine: 'jruby', engine_version: '9.1.5.0' if ENV.key?('DYNO')
 
 gem 'activesupport', '~> 3.2'
 gem 'aws-sdk'
+gem 'aws_memfix', git: 'https://github.com/joecorcoran/aws-sdk-ruby-memory-fix.git' # https://github.com/travis-pro/team-blue/issues/616
 gem 'bunny', platform: :mri
 gem 'coder', git: 'https://github.com/rkh/coder.git'
 gem 'connection_pool'
