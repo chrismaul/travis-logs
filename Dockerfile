@@ -1,8 +1,11 @@
-FROM ruby:2.4.1
+FROM ruby:2.5.3-alpine
 
 LABEL maintainer Travis CI GmbH <support+travis-app-docker-images@travis-ci.com>
 
-RUN apt-get update && apt-get upgrade -y --no-install-recommends && apt-get install -y postgresql postgresql-server-dev-9.4 liblocal-lib-perl build-essential
+RUN apk add --no-cache build-base postgresql-dev tzdata postgresql-client perl git bash \
+  curl wget perl-app-cpanminus perl-namespace-autoclean perl-namespace-clean \
+  perl-package-stash perl-params-util perl-data-optlist perl-sub-exporter \
+  perl-perlio-utf8_strict perl-clone perl-dbi perl-datetime perl-dbd-pg
 
 # throw errors if Gemfile has been modified since Gemfile.lock
 RUN bundle config --global frozen 1
@@ -21,6 +24,6 @@ COPY . /usr/src/app
 # RUN /usr/src/app/script/install-partman
 
 # Install sqitch so migrations work
-RUN /usr/src/app/script/install-sqitch
+RUN cpanm App::Sqitch -n
 
 CMD /bin/bash
